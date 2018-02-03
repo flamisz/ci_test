@@ -11,6 +11,8 @@ class Twitter extends CI_Controller {
   {
     parent::__construct();
 
+    $this->load->model('user_model');
+
     $this->server = new TwitterOauth([
       'identifier' => 'Qfflyt0FL025wLNKbf2o1AeSd',
       'secret' => 'LLvbZM6AKXsGvEohHoL37X54sdWnfb11sU8n0vhcSUgZ9i5A8E',
@@ -20,25 +22,35 @@ class Twitter extends CI_Controller {
 
   public function login()
   {
-      $temporaryCredentials = $this->server->getTemporaryCredentials();
-      $this->session->temporary_credentials = serialize($temporaryCredentials);
-      $this->server->authorize($temporaryCredentials);
+    $temporaryCredentials = $this->server->getTemporaryCredentials();
+    $this->session->temporary_credentials = serialize($temporaryCredentials);
+    $this->server->authorize($temporaryCredentials);
   }
 
   public function callback()
   {
     if (isset($_GET['denied'])) {
       echo 'Hey! You denied the client access to your Twitter account!';
+      //redirect with flash
     }
 
     $temporaryCredentials = unserialize($this->session->temporary_credentials);
     $tokenCredentials = $this->server->getTokenCredentials($temporaryCredentials, $_GET['oauth_token'], $_GET['oauth_verifier']);
     unset($_SESSION['temporary_credentials']);
-    $this->session->token_credentials = serialize($tokenCredentials);
 
     $user = $this->server->getUserDetails($tokenCredentials);
+
+    $twitter_user = [
+      'uid' => $user->uid,
+      'nickname' => $user->nickname,
+      'email' => $user->email,
+      'name' => $user->name,
+      'avatar' => $user->imageUrl,
+      'token' => $tokenCredentials->getIdentifier(),
+      'token_secret' => $tokenCredentials->getSecret()
+    ];
+
     echo '<pre>';
-    var_dump($user);
-    // redirect
+    var_dump($twitter_user);
   }
 }
