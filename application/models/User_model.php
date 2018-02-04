@@ -2,10 +2,9 @@
 
 class User_model extends CI_Model {
 
-  public function __construct()
-  {
-    $this->load->database();
-  }
+  // public function __construct()
+  // {
+  // }
 
   public function from_oauth($oauth_user)
   {
