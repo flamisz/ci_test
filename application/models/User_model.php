@@ -2,8 +2,6 @@
 
 class User_model extends CI_Model {
 
-  public $remember_token;
-
   public function __construct()
   {
     $this->load->database();
@@ -30,13 +28,15 @@ class User_model extends CI_Model {
 
   public function remember($user)
   {
-    $this->remember_token = bin2hex(random_bytes(32));
+    $remember_token = bin2hex(random_bytes(32));
 
     $update_data = [
-      'remember_digest' => password_hash($this->remember_token, PASSWORD_DEFAULT)
+      'remember_digest' => password_hash($remember_token, PASSWORD_DEFAULT)
     ];
 
     $this->db->update('users', $update_data, ['id' => $user->id]);
+
+    return $remember_token;
   }
 
   public function is_authenticated($user, $token)

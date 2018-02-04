@@ -5,7 +5,6 @@ use League\OAuth1\Client\Server\Twitter;
 class Auth extends CI_Controller {
 
   private $server;
-  private $current_user;
 
   public function __construct()
   {
@@ -56,47 +55,16 @@ class Auth extends CI_Controller {
 
     $user = $this->user_model->from_oauth($twitter_user);
 
-    $this->_login($user);
-    $this->_remember($user);
+    $this->authenticate->login($user);
+    $this->authenticate->remember($user);
 
     redirect('welcome/index');
-  }
-
-  private function _login($user)
-  {
-    $this->session->user_id = $user->id;
-  }
-
-  private function _remember($user)
-  {
-    $remember_token = $this->user_model->remember($user);
-    set_coded_permanent_cookie('user_id', $user->id);
-    set_permanent_cookie('remember_token', $this->user_model->remember_token);
-  }
-
-  private function _current_user()
-  {
-    if ($user_id = $this->session->user_id)
-    {
-      $this->current_user = $this->current_user ?: $this->user_model->find_by('id', $user_id);
-    }
-    else if ($user_id = get_coded_cookie('user_id'))
-    {
-      $user = $this->user_model->find_by('id', $user_id);
-      if ($user && $this->user_model->is_authenticated($user, get_cookie('remember_token')))
-      {
-        $this->_login($user);
-        $this->current_user = $user;
-      }
-    }
-
-    return $this->current_user;
   }
 
   public function test()
   {
     echo '<pre>';
-    // var_dump($this->_current_user());
+    var_dump($this->auth->current_user());
     // $c = $this->current_user;
     // var_dump($c);
     // $cc = get_coded_cookie('user_id');
