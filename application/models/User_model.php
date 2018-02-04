@@ -2,10 +2,6 @@
 
 class User_model extends CI_Model {
 
-  // public function __construct()
-  // {
-  // }
-
   public function from_oauth($oauth_user)
   {
     return $this->find_by('uid', $oauth_user['uid']) ?:
@@ -21,6 +17,14 @@ class User_model extends CI_Model {
 
   public function create_from_oauth($oauth_user)
   {
+    if ($user = $this->find_by('nickname', $oauth_user['nickname']))
+    {
+      $this->db->update('users',
+                        ['nickname' => $user->nickname . '-' . $user->id],
+                        ['id' => $user->id]
+                      );
+    }
+
     return $this->db->insert('users', $oauth_user) ?
                   $this->find_by('id', $this->db->insert_id()) : FALSE;
   }
