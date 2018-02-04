@@ -24,7 +24,7 @@ class Test extends CI_Controller {
     echo $this->unit->report();
   }
 
-  public function test_user1()
+  public function user_login()
   {
     $this->load->model('user_model');
     $this->db->empty_table('users');
