@@ -14,11 +14,12 @@ class Auth extends CI_Controller {
     $this->load->model('user_model');
     $this->load->helper(['url', 'cookie']);
     $this->lang->load('error_messages_lang');
+    $this->config->load('secret', FALSE, TRUE);
 
     $this->server = new Twitter([
-      'identifier' => 'Qfflyt0FL025wLNKbf2o1AeSd',
-      'secret' => 'LLvbZM6AKXsGvEohHoL37X54sdWnfb11sU8n0vhcSUgZ9i5A8E',
-      'callback_uri' => "http://ci.test/auth/callback",
+      'identifier' => $this->config->item('twitter_api_key'),
+      'secret' => $this->config->item('twitter_api_secret'),
+      'callback_uri' => $this->config->item('twitter_callback_uri'),
     ]);
   }
 
@@ -95,10 +96,11 @@ class Auth extends CI_Controller {
   public function test()
   {
     echo '<pre>';
-    var_dump($this->_current_user());
-    $c = $this->current_user;
-    var_dump($c);
+    // var_dump($this->_current_user());
+    // $c = $this->current_user;
+    // var_dump($c);
     // $cc = get_coded_cookie('user_id');
     // var_dump($cc);
+    var_dump($this->server);
   }
 }
