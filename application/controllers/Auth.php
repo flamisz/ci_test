@@ -61,10 +61,19 @@ class Auth extends CI_Controller {
     redirect('welcome/index');
   }
 
+  public function logout()
+  {
+    if ($this->authenticate->is_logged_in())
+    {
+      $this->authenticate->logout();
+      redirect('welcome/index');
+    }
+  }
+
   public function test()
   {
     echo '<pre>';
-    var_dump($this->auth->current_user());
+    var_dump($this->authenticate->current_user());
     // $c = $this->current_user;
     // var_dump($c);
     // $cc = get_coded_cookie('user_id');

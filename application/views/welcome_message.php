@@ -74,7 +74,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
     <?php if ($is_logged_in): ?>
       User logged in.<br>
-      <?php echo $user->nickname ?>
+      <?php echo $user->nickname ?><br>
+      <a href="/auth/logout">Logout</a>
     <?php else: ?>
       <a href="/auth/login">Login with twitter</a>
     <?php endif; ?>

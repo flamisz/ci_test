@@ -48,4 +48,13 @@ class User_model extends CI_Model {
 
     return password_verify($token, $user->remember_digest);
   }
+
+  public function forget($user)
+  {
+    $update_data = [
+      'remember_digest' => NULL
+    ];
+
+    $this->db->update('users', $update_data, ['id' => $user->id]);
+  }
 }

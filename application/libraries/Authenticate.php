@@ -9,7 +9,6 @@ class Authenticate
   function __construct()
   {
     $this->CI =& get_instance();
-    $this->CI->load->library('session');
     $this->CI->load->model('user_model');
     $this->CI->load->helper('cookie');
   }
@@ -48,5 +47,19 @@ class Authenticate
   public function is_logged_in()
   {
     return ! ! $this->current_user();
+  }
+
+  public function logout()
+  {
+    $this->forget($this->current_user());
+    unset($_SESSION['user_id']);
+    $this->current_user = NULL;
+  }
+
+  public function forget($user)
+  {
+    $this->CI->user_model->forget($user);
+    delete_cookie('user_id');
+    delete_cookie('remember_token');
   }
 }
