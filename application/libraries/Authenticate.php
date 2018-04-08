@@ -31,7 +31,7 @@ class Authenticate
     {
       $this->current_user = $this->current_user ?: $this->CI->user_model->find_by('id', $user_id);
     }
-    else if ($user_id = get_coded_cookie('user_id'))
+    elseif ($user_id = get_coded_cookie('user_id'))
     {
       $user = $this->CI->user_model->find_by('id', $user_id);
       if ($user && $this->CI->user_model->is_authenticated($user, get_cookie('remember_token')))

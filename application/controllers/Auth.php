@@ -69,15 +69,4 @@ class Auth extends CI_Controller {
       redirect('welcome/index');
     }
   }
-
-  public function test()
-  {
-    echo '<pre>';
-    var_dump($this->authenticate->current_user());
-    // $c = $this->current_user;
-    // var_dump($c);
-    // $cc = get_coded_cookie('user_id');
-    // var_dump($cc);
-    var_dump($this->server);
-  }
 }

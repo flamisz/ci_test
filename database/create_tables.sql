@@ -12,6 +12,6 @@ CREATE TABLE users (
   updated_at timestamp NULL DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY users_nickname (nickname),
-  UNIQUE KEY users_email (email),
+  KEY users_email (email),
   UNIQUE KEY users_uid (uid)
 );

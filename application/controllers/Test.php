@@ -30,7 +30,6 @@ class Test extends CI_Controller {
     $this->db->empty_table('users');
     $this->_add_user();
 
-
     $twitter_user = [
       'uid' => '654321',
       'nickname' => 'test_nick',
